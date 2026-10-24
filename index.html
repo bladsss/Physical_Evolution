@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101411">
+<meta name="description" content="Registro personal de entrenamiento y evolución física.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Physical Evolution</title>
+<style>
+:root{--bg:#0c100d;--panel:#151b16;--panel2:#1b241d;--line:#2b392e;--text:#eef4ef;--muted:#a3b1a5;--green:#a6f36b;--green2:#5eac3b;--danger:#ff8c8c;--radius:18px}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#17231a 0%,var(--bg) 55%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:780px;margin:auto;padding:env(safe-area-inset-top) 15px calc(92px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 2px 14px}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:14px;background:var(--green);color:#14200f;display:grid;place-items:center;font-weight:900;font-size:21px;box-shadow:0 0 26px #a6f36b22}
+.brand h1{font-size:16px;letter-spacing:.08em;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:11px;letter-spacing:.13em}
+.pill{font-size:11px;color:var(--green);border:1px solid #49633f;border-radius:99px;padding:7px 10px}
+h2{font-size:25px;margin:12px 0 5px;letter-spacing:-.03em}.subtitle{color:var(--muted);font-size:13px;line-height:1.45;margin:0 0 18px}
+.hero{background:linear-gradient(135deg,#233b24,#17231a 65%);border:1px solid #355239;border-radius:24px;padding:20px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:150px;height:150px;border:1px solid #a6f36b30;border-radius:50%;right:-55px;top:-55px;box-shadow:0 0 0 20px #a6f36b08,0 0 0 40px #a6f36b05}
+.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--green);font-weight:750}
+.hero h2{font-size:27px;margin:8px 0}.hero p{font-size:13px;color:#d0dfd1;line-height:1.5;max-width:420px;margin:0}
+.hero-actions{display:flex;gap:9px;margin-top:17px;flex-wrap:wrap}
+.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:750;font-size:13px;background:var(--green);color:#14200f}
+.btn.secondary{background:#29362b;color:var(--text);border:1px solid #405443}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:14px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:15px;min-width:0}
+.card .label{color:var(--muted);font-size:12px}.metric{font-size:25px;font-weight:800;letter-spacing:-.04em;margin:8px 0 2px}.small{font-size:11px;color:var(--muted)}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:23px 2px 10px}.section-title h3{font-size:16px;margin:0}.section-title span{font-size:11px;color:var(--muted)}
+.quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.quick button{display:flex;gap:11px;align-items:center;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:15px;color:var(--text);padding:14px}
+.qicon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#263727;font-size:19px}.quick strong{display:block;font-size:13px}.quick small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.view{display:none}.view.active{display:block}
+form{display:grid;gap:12px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+label{display:grid;gap:6px;font-size:12px;color:var(--muted)}
+input,select,textarea{width:100%;background:#0e140f;border:1px solid #354438;border-radius:11px;padding:11px 12px;color:var(--text);outline:none;min-width:0}
+input:focus,select:focus,textarea:focus{border-color:var(--green)}
+input::placeholder,textarea::placeholder{color:#667368}
+.full{grid-column:1/-1}
+.list{display:grid;gap:9px;margin-top:14px}
+.entry{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.entry strong{font-size:13px;display:block}.entry p{font-size:12px;color:var(--muted);margin:5px 0 0;line-height:1.4}
+.entry .date{font-size:10px;color:var(--green);white-space:nowrap}
+.del{border:0;background:transparent;color:var(--danger);padding:5px;font-size:11px}
+.notice{background:#18221a;border:1px solid #354b37;color:#c8d9ca;border-radius:13px;padding:12px;font-size:12px;line-height:1.5;margin:12px 0}
+.chartbox{height:190px;display:flex;align-items:end;gap:7px;padding:18px 5px 25px;border-bottom:1px solid var(--line);overflow:hidden}
+.barwrap{flex:1;min-width:13px;height:100%;display:flex;align-items:end;position:relative}
+.bar{width:100%;min-height:3px;background:linear-gradient(0deg,var(--green2),var(--green));border-radius:6px 6px 2px 2px;position:relative}
+.barlabel{position:absolute;bottom:-21px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--muted);white-space:nowrap}
+.empty{color:var(--muted);font-size:12px;text-align:center;padding:24px 10px;border:1px dashed #354438;border-radius:14px}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:5;background:#0d120fee;backdrop-filter:blur(18px);border-top:1px solid #29352b;padding:9px max(8px,env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));display:flex;justify-content:center}
+.navinner{width:min(780px,100%);display:flex;justify-content:space-around;gap:3px}
+nav button{border:0;background:transparent;color:#829084;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;padding:7px 10px;border-radius:12px;min-width:56px}
+nav button span{font-size:19px}nav button.active{background:#233524;color:var(--green)}
+.hidden{display:none!important}
+footer{color:#667368;text-align:center;font-size:10px;padding:20px 0}
+@media(min-width:600px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.quick{grid-template-columns:repeat(4,minmax(0,1fr))}.hero h2{font-size:31px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="brand"><div class="logo">PE</div><div><h1>PHYSICAL EVOLUTION</h1><p>BUILD · TRACK · REVIEW</p></div></div>
+ <div class="pill">BETA 0.1</div>
+</header>
+
+<section class="view active" id="home">
+ <div class="hero"><div class="eyebrow">Tu proyecto personal</div><h2>El progreso se registra.</h2><p>Una línea de partida honesta, datos reales y revisiones semestrales. Sin inventar resultados ni cambiar el pronóstico original.</p>
+ <div class="hero-actions"><button class="btn" onclick="showView('gym')">＋ Registrar sesión</button><button class="btn secondary" onclick="showView('profile')">Mi estado físico</button></div></div>
+ <div class="grid">
+  <div class="card"><div class="label">Sesiones registradas</div><div class="metric" id="metricSessions">0</div><div class="small">Gimnasio + calistenia</div></div>
+  <div class="card"><div class="label">Registros de cardio</div><div class="metric" id="metricCardio">0</div><div class="small">Carreras y otras sesiones</div></div>
+  <div class="card"><div class="label">Peso actual</div><div class="metric" id="metricWeight">—</div><div class="small">Pendiente de confirmar</div></div>
+  <div class="card"><div class="label">Auditoría siguiente</div><div class="metric">Mes 6</div><div class="small">Desde el inicio oficial</div></div>
+ </div>
+ <div class="section-title"><h3>Acceso rápido</h3><span>V 0.1</span></div>
+ <div class="quick">
+  <button onclick="showView('gym')"><div class="qicon">🏋️</div><div><strong>Gimnasio</strong><small>Cargas y repeticiones</small></div></button>
+  <button onclick="showView('calis')"><div class="qicon">🤸</div><div><strong>Calistenia</strong><small>Control y habilidades</small></div></button>
+  <button onclick="showView('cardio')"><div class="qicon">🏃</div><div><strong>Cardio</strong><small>Distancia y tiempo</small></div></button>
+  <button onclick="showView('stats')"><div class="qicon">📈</div><div><strong>Estadísticas</strong><small>Tu historial visual</small></div></button>
+ </div>
+ <div class="section-title"><h3>Actividad reciente</h3><span id="recentCount">0 registros</span></div>
+ <div id="recentList" class="list"></div>
+ <div class="notice">⚠️ Los datos actuales son preliminares. El Mes 0 y la predicción oficial se definirán más adelante, cuando confirmemos las mediciones iniciales.</div>
+</section>
+
+<section class="view" id="profile">
+ <h2>Mi estado físico</h2><p class="subtitle">Guarda datos de referencia. No hace falta medirlo todo ni buscar una cifra perfecta.</p>
+ <div class="card">
+ <form id="profileForm">
+  <div class="formgrid">
+   <label>Edad (años)<input type="number" min="1" max="120" id="age" placeholder="Ej. 14"></label>
+   <label>Estatura (cm)<input type="number" min="50" max="250" step="0.1" id="height" placeholder="Ej. 176.5"></label>
+   <label>Peso (kg)<input type="number" min="1" max="400" step="0.1" id="weight" placeholder="Ej. 64"></label>
+   <label>Fecha de medición<input type="date" id="measureDate"></label>
+   <label class="full">Notas opcionales<textarea id="profileNotes" rows="3" placeholder="Ej. medición por la mañana, condiciones similares..."></textarea></label>
+  </div>
+  <button class="btn" type="submit">Guardar estado</button>
+ </form></div>
+ <div class="notice">La grasa corporal y la masa muscular no se pueden conocer con precisión usando solo el peso y la estatura. Si decides medir composición corporal, trata las estimaciones como aproximadas y prioriza tu salud y rendimiento.</div>
+ <div class="section-title"><h3>Mediciones guardadas</h3></div><div id="profileHistory" class="list"></div>
+</section>
+
+<section class="view" id="gym">
+ <h2>Gimnasio</h2><p class="subtitle">Registra los datos tal como ocurrieron. Cada sesión es una pieza del historial.</p>
+ <div class="card"><form id="gymForm">
+  <label>Ejercicio<input id="gymExercise" required placeholder="Ej. Extensión de tríceps en polea"></label>
+  <div class="formgrid">
+   <label>Peso (kg)<input id="gymLoad" type="number" min="0" step="0.25" placeholder="Ej. 15"></label>
+   <label>Series<input id="gymSets" type="number" min="1" step="1" placeholder="Ej. 3"></label>
+   <label>Repeticiones por serie<input id="gymReps" type="text" placeholder="Ej. 12, 10, 10"></label>
+   <label>Fecha<input id="gymDate" type="date" required></label>
+   <label class="full">Notas<textarea id="gymNotes" rows="2" placeholder="Técnica, esfuerzo, molestias o detalles útiles"></textarea></label>
+  </div><button class="btn" type="submit">Guardar registro</button>
+ </form></div><div class="section-title"><h3>Historial de gimnasio</h3></div><div id="gymList" class="list"></div>
+</section>
+
+<section class="view" id="calis">
+ <h2>Calistenia</h2><p class="subtitle">Control corporal, movilidad, fuerza relativa y habilidades.</p>
+ <div class="card"><form id="calisForm">
+  <label>Ejercicio o habilidad<input id="calisExercise" required placeholder="Ej. Flexiones estándar"></label>
+  <div class="formgrid">
+   <label>Series<input id="calisSets" type="number" min="1" placeholder="Ej. 3"></label>
+   <label>Repeticiones / tiempo<input id="calisReps" placeholder="Ej. 12 / 30 s"></label>
+   <label>Progresión<input id="calisLevel" placeholder="Ej. inclinadas, estándar..."></label>
+   <label>Fecha<input id="calisDate" type="date" required></label>
+   <label class="full">Notas<textarea id="calisNotes" rows="2" placeholder="Calidad técnica, dificultad, etc."></textarea></label>
+  </div><button class="btn" type="submit">Guardar registro</button>
+ </form></div><div class="section-title"><h3>Historial de calistenia</h3></div><div id="calisList" class="list"></div>
+</section>
+
+<section class="view" id="cardio">
+ <h2>Cardio</h2><p class="subtitle">Distancia, tiempo y cómo te sentiste. Ajusta el esfuerzo a tu recuperación.</p>
+ <div class="card"><form id="cardioForm">
+  <label>Actividad<input id="cardioType" required placeholder="Ej. Carrera"></label>
+  <div class="formgrid">
+   <label>Distancia (km)<input id="cardioDistance" type="number" min="0" step="0.01" placeholder="Ej. 2"></label>
+   <label>Tiempo (min)<input id="cardioTime" type="number" min="0" step="0.1" placeholder="Ej. 12.5"></label>
+   <label>Fecha<input id="cardioDate" type="date" required></label>
+   <label>Esfuerzo percibido<select id="cardioEffort"><option value="">Sin indicar</option><option>Suave</option><option>Moderado</option><option>Difícil</option></select></label>
+   <label class="full">Notas<textarea id="cardioNotes" rows="2" placeholder="Energía, recuperación, condiciones..."></textarea></label>
+  </div><button class="btn" type="submit">Guardar registro</button>
+ </form></div><div class="section-title"><h3>Historial de cardio</h3></div><div id="cardioList" class="list"></div>
+</section>
+
+<section class="view" id="stats">
+ <h2>Estadísticas</h2><p class="subtitle">Gráficas basadas únicamente en lo que hayas registrado.</p>
+ <div class="card"><div class="section-title" style="margin-top:0"><h3>Sesiones por mes</h3><span>Últimos 6 meses</span></div><div id="sessionChart" class="chartbox"></div><div id="chartEmpty" class="empty hidden">Todavía no hay suficientes registros. Añade sesiones para generar tu gráfica.</div></div>
+ <div class="grid">
+  <div class="card"><div class="label">Total de registros</div><div class="metric" id="totalRecords">0</div></div>
+  <div class="card"><div class="label">Distancia total</div><div class="metric" id="totalDistance">0 km</div></div>
+ </div>
+ <div class="notice">La primera versión muestra actividad registrada. Más adelante añadiremos gráficas por ejercicio, comparaciones mes a mes y resúmenes semestrales.</div>
+</section>
+
+<section class="view" id="prediction">
+ <h2>Predicción y auditorías</h2><p class="subtitle">La predicción oficial se crea cuando establezcamos el Mes 0.</p>
+ <div class="card"><div class="eyebrow">Estado del pronóstico</div><h3 style="margin:8px 0">Pendiente de línea de partida</h3><p class="subtitle" style="margin:0">La predicción original se guardará como un registro histórico separado. Las auditorías semestrales se añadirán sin sobrescribirla.</p></div>
+ <div class="notice">Los escenarios futuros serán aproximaciones, no garantías. Se basarán en tus datos reales, constancia, recuperación y contexto; no podemos predecir con exactitud el desarrollo físico de una persona.</div>
+ <div class="section-title"><h3>Auditorías</h3></div><div class="empty">Aún no hay auditorías. La primera corresponde a los seis meses posteriores al inicio oficial.</div>
+</section>
+
+<section class="view" id="backup">
+ <h2>Datos y copias</h2><p class="subtitle">Tus registros se guardan localmente en este navegador. Exporta una copia con regularidad.</p>
+ <div class="card">
+  <div class="eyebrow">Respaldo</div><h3>Guardar una copia</h3><p class="subtitle">Descarga tus datos en un archivo JSON para guardarlos o transferirlos a otro dispositivo.</p>
+  <button class="btn" id="exportBtn">Exportar mis datos</button>
+ </div>
+ <div class="card" style="margin-top:12px">
+  <div class="eyebrow">Restauración</div><h3>Importar una copia</h3><p class="subtitle">Importar reemplazará los datos actuales de esta aplicación. Exporta primero una copia por seguridad.</p>
+  <label>Archivo JSON<input type="file" id="importFile" accept=".json,application/json"></label><button class="btn secondary" id="importBtn" style="margin-top:12px">Importar datos</button>
+ </div>
+ <div class="card" style="margin-top:12px"><h3>Estado del almacenamiento</h3><p class="subtitle" id="storageStatus">Datos guardados en este dispositivo.</p><button class="btn ghost" id="clearBtn">Borrar todos los datos</button></div>
+ <div class="notice">No compartas el archivo de copia si contiene información personal que prefieres mantener privada. Esta versión no envía tus datos a un servidor.</div>
+</section>
+
+<footer>PHYSICAL EVOLUTION · Prototipo 0.1 · Tus datos, tu proceso.</footer>
+</div>
+<nav><div class="navinner">
+ <button class="active" data-view="home"><span>⌂</span>Inicio</button>
+ <button data-view="gym"><span>🏋️</span>Gym</button>
+ <button data-view="calis"><span>🤸</span>Calistenia</button>
+ <button data-view="cardio"><span>🏃</span>Cardio</button>
+ <button data-view="stats"><span>▥</span>Stats</button>
+ <button data-view="backup"><span>⚙</span>Datos</button>
+</div></nav>
+<script>
+const KEY='physicalEvolutionData_v1';
+const blankData=()=>({version:1,profile:{},measurements:[],gym:[],calis:[],cardio:[],createdAt:new Date().toISOString()});
+let data=loadData();
+function loadData(){try{return {...blankData(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return blankData()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));renderAll()}
+function today(){return new Date().toISOString().slice(0,10)}
+['gymDate','calisDate','cardioDate','measureDate'].forEach(id=>document.getElementById(id).value=today());
+function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===name));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));window.scrollTo({top:0,behavior:'smooth'});if(name==='stats')renderStats()}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmtDate(d){if(!d)return '';try{return new Date(d+'T12:00:00').toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})}catch(e){return d}}
+function recordCard(item,type,desc){return `<div class="entry"><div><strong>${esc(item.name||item.type||'Registro')}</strong><p>${desc}</p><button class="del" onclick="deleteRecord('${type}','${item.id}')">Eliminar registro</button></div><div class="date">${esc(fmtDate(item.date))}</div></div>`}
+function deleteRecord(type,id){if(!confirm('¿Eliminar este registro? Esta acción no se puede deshacer.'))return;data[type]=data[type].filter(x=>x.id!==id);save()}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+document.getElementById('profileForm').addEventListener('submit',e=>{e.preventDefault();data.profile={age:val('age'),height:val('height'),weight:val('weight'),date:val('measureDate'),notes:val('profileNotes')};data.measurements.unshift({id:id(),...data.profile});save();alert('Estado guardado.')});
+document.getElementById('gymForm').addEventListener('submit',e=>{e.preventDefault();data.gym.unshift({id:id(),name:val('gymExercise'),load:val('gymLoad'),sets:val('gymSets'),reps:val('gymReps'),date:val('gymDate'),notes:val('gymNotes')});e.target.reset();document.getElementById('gymDate').value=today();save();alert('Registro de gimnasio guardado.')});
+document.getElementById('calisForm').addEventListener('submit',e=>{e.preventDefault();data.calis.unshift({id:id(),name:val('calisExercise'),sets:val('calisSets'),reps:val('calisReps'),level:val('calisLevel'),date:val('calisDate'),notes:val('calisNotes')});e.target.reset();document.getElementById('calisDate').value=today();save();alert('Registro de calistenia guardado.')});
+document.getElementById('cardioForm').addEventListener('submit',e=>{e.preventDefault();data.cardio.unshift({id:id(),type:val('cardioType'),distance:val('cardioDistance'),time:val('cardioTime'),date:val('cardioDate'),effort:val('cardioEffort'),notes:val('cardioNotes')});e.target.reset();document.getElementById('cardioDate').value=today();save();alert('Registro de cardio guardado.')});
+function val(id){return document.getElementById(id).value.trim()}
+function renderLists(){
+ document.getElementById('gymList').innerHTML=data.gym.length?data.gym.map(x=>recordCard(x,'gym',`${x.load?esc(x.load)+' kg · ':''}${x.sets?esc(x.sets)+' series · ':''}${x.reps?esc(x.reps)+' reps':''}${x.notes?'<br>'+esc(x.notes):''}`)).join(''):'<div class="empty">Todavía no hay sesiones de gimnasio.</div>';
+ document.getElementById('calisList').innerHTML=data.calis.length?data.calis.map(x=>recordCard(x,'calis',`${x.sets?esc(x.sets)+' series · ':''}${x.reps?esc(x.reps):''}${x.level?' · '+esc(x.level):''}${x.notes?'<br>'+esc(x.notes):''}`)).join(''):'<div class="empty">Todavía no hay registros de calistenia.</div>';
+ document.getElementById('cardioList').innerHTML=data.cardio.length?data.cardio.map(x=>recordCard(x,'cardio',`${x.distance?esc(x.distance)+' km · ':''}${x.time?esc(x.time)+' min · ':''}${esc(x.effort||'')}${x.notes?'<br>'+esc(x.notes):''}`)).join(''):'<div class="empty">Todavía no hay registros de cardio.</div>';
+ document.getElementById('profileHistory').innerHTML=data.measurements.length?data.measurements.map(x=>recordCard({id:x.id,name:'Medición física',date:x.date},'measurements',`${x.weight?esc(x.weight)+' kg · ':''}${x.height?esc(x.height)+' cm · ':''}${x.age?esc(x.age)+' años':''}${x.notes?'<br>'+esc(x.notes):''}`)).join(''):'<div class="empty">Todavía no hay mediciones guardadas.</div>';
+}
+function renderHome(){
+ let total=data.gym.length+data.calis.length;document.getElementById('metricSessions').textContent=total;document.getElementById('metricCardio').textContent=data.cardio.length;
+ document.getElementById('metricWeight').textContent=data.profile.weight?data.profile.weight+' kg':'—';
+ let all=[...data.gym.map(x=>({...x,kind:'Gimnasio'})),...data.calis.map(x=>({...x,kind:'Calistenia'})),...data.cardio.map(x=>({...x,kind:'Cardio',name:x.type}))].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,4);
+ document.getElementById('recentCount').textContent=(data.gym.length+data.calis.length+data.cardio.length)+' registros';
+ document.getElementById('recentList').innerHTML=all.length?all.map(x=>`<div class="entry"><div><strong>${esc(x.name||x.type)}</strong><p>${esc(x.kind)}${x.load?' · '+esc(x.load)+' kg':''}${x.distance?' · '+esc(x.distance)+' km':''}</p></div><div class="date">${esc(fmtDate(x.date))}</div></div>`).join(''):'<div class="empty">Tu historial aparecerá aquí cuando registres tu primera sesión.</div>';
+}
+function renderStats(){
+ const all=[...data.gym,...data.calis,...data.cardio];document.getElementById('totalRecords').textContent=all.length;
+ const dist=data.cardio.reduce((s,x)=>s+(Number(x.distance)||0),0);document.getElementById('totalDistance').textContent=dist.toFixed(2)+' km';
+ const months=[];const now=new Date();for(let i=5;i>=0;i--){let d=new Date(now.getFullYear(),now.getMonth()-i,1);months.push({key:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),label:d.toLocaleDateString('es-CO',{month:'short'}),n:0})}
+ all.forEach(x=>{let m=months.find(m=>(x.date||'').slice(0,7)===m.key);if(m)m.n++});
+ let max=Math.max(1,...months.map(m=>m.n));document.getElementById('sessionChart').innerHTML=months.map(m=>`<div class="barwrap"><div class="bar" style="height:${m.n?Math.max(6,m.n/max*100):2}%"><span class="barlabel">${esc(m.label)} · ${m.n}</span></div></div>`).join('');
+ document.getElementById('chartEmpty').classList.toggle('hidden',all.length>0);
+}
+function renderAll(){renderLists();renderHome();renderStats();document.getElementById('storageStatus').textContent=`${data.gym.length+data.calis.length+data.cardio.length+data.measurements.length} registros guardados localmente en este navegador.`}
+document.getElementById('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='physical-evolution-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)});
+document.getElementById('importBtn').addEventListener('click',()=>{const f=document.getElementById('importFile').files[0];if(!f){alert('Selecciona primero un archivo JSON.');return}const r=new FileReader();r.onload=()=>{try{const imported=JSON.parse(r.result);if(!imported||typeof imported!=='object'||!Array.isArray(imported.gym)||!Array.isArray(imported.calis)||!Array.isArray(imported.cardio))throw Error('Formato inválido');if(!confirm('Esto reemplazará los datos actuales. ¿Continuar?'))return;data={...blankData(),...imported};save();alert('Copia importada correctamente.')}catch(e){alert('No se pudo importar: archivo inválido o incompatible.')}};r.readAsText(f)});
+document.getElementById('clearBtn').addEventListener('click',()=>{if(!confirm('¿Borrar TODOS los datos de esta aplicación? Exporta una copia antes si quieres conservarlos.'))return;data=blankData();save();alert('Datos borrados.')});
+renderAll();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>

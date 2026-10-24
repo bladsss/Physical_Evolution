@@ -1,0 +1,10 @@
+{
+  "name": "Physical Evolution",
+  "short_name": "PhysEvolution",
+  "description": "Registro personal de entrenamiento y evolución física.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0c100d",
+  "theme_color": "#101411",
+  "orientation": "portrait"
+}
